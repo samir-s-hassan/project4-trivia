@@ -27,6 +27,13 @@ class TriviaViewController: UIViewController {
     addGradient()
     questionContainerView.layer.cornerRadius = 8.0
     // TODO: FETCH TRIVIA QUESTIONS HERE
+      TriviaQuestionService.fetchTriviaQuestions(amount: 5) { [weak self] questions in
+          self?.questions = questions
+          DispatchQueue.main.async {
+              self?.updateQuestion(withQuestionIndex: 0)
+          }
+      }
+
   }
   
   private func updateQuestion(withQuestionIndex questionIndex: Int) {
