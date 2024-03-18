@@ -53,7 +53,8 @@ class TriviaQuestionService {
         // iterate through each result in the JSON array
         for result in results {
             // extract values for each property from the result dictionary
-            guard let category = result["category"] as? String,
+            guard let type = result ["type"] as? String,
+                  let category = result["category"] as? String,
                   let question = result["question"] as? String,
                   let correctAnswer = result["correct_answer"] as? String,
                   let incorrectAnswers = result["incorrect_answers"] as? [String] else {
@@ -62,7 +63,8 @@ class TriviaQuestionService {
             }
             
             // create a TriviaQuestion instance and append it to the array
-            let triviaQuestion = TriviaQuestion(category: category,
+            let triviaQuestion = TriviaQuestion(type: type,
+                                                category: category,
                                                 question: question,
                                                 correctAnswer: correctAnswer,
                                                 incorrectAnswers: incorrectAnswers)
