@@ -6,6 +6,27 @@
 //
 
 import UIKit
+import Foundation
+
+extension String { //SAMIR - this function is important to help out with HTML decoding since we want to decode this HTML into string
+    func decodeHTMLEntities() -> String {
+        guard let data = self.data(using: .utf8) else {
+            return self
+        }
+        let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
+            .documentType: NSAttributedString.DocumentType.html,
+            .characterEncoding: String.Encoding.utf8.rawValue
+        ]
+        do {
+            let attributedString = try NSAttributedString(data: data, options: options, documentAttributes: nil)
+            return attributedString.string
+        } catch {
+            print("Error decoding HTML entities: \(error)")
+            return self
+        }
+    }
+}
+
 
 class TriviaViewController: UIViewController {
     
@@ -30,7 +51,7 @@ class TriviaViewController: UIViewController {
         fetchNewTriviaQuestions() // Samir - Fetch trivia questions when the view loads
     }
     
-    //this function is so we have a function to do the API call so we can later get fresh set of questions
+    //Samir - this function is so we have a function to do the API call so we can later get fresh set of questions
     private func fetchNewTriviaQuestions() {
         TriviaQuestionService.fetchTriviaQuestions(amount: 5) { [weak self] questions in
             self?.questions = questions
@@ -45,24 +66,27 @@ class TriviaViewController: UIViewController {
     private func updateQuestion(withQuestionIndex questionIndex: Int) {
         currentQuestionNumberLabel.text = "Question: \(questionIndex + 1)/\(questions.count)"
         let question = questions[questionIndex]
-        questionLabel.text = question.question
-        categoryLabel.text = question.category
+        // decode HTML entities in question text and category
+        let decodedQuestionText = question.question.decodeHTMLEntities()
+        let decodedCategoryText = question.category.decodeHTMLEntities()
+        questionLabel.text = decodedQuestionText
+        categoryLabel.text = decodedCategoryText
         let answers = ([question.correctAnswer] + question.incorrectAnswers).shuffled()
         if answers.count > 0 {
-            answerButton0.setTitle(answers[0], for: .normal)
+            answerButton0.setTitle(answers[0].decodeHTMLEntities(), for: .normal)
             answerButton2.isHidden = true //SAMIR - this is the code to hide the 3rd and 4th answer choices for T/F questions
             answerButton3.isHidden = true //SAMIR - this is the code to hide the 3rd and 4th answer choices for T/F questions
         }
         if answers.count > 1 {
-            answerButton1.setTitle(answers[1], for: .normal)
+            answerButton1.setTitle(answers[1].decodeHTMLEntities(), for: .normal)
             answerButton1.isHidden = false
         }
         if answers.count > 2 {
-            answerButton2.setTitle(answers[2], for: .normal)
+            answerButton2.setTitle(answers[2].decodeHTMLEntities(), for: .normal)
             answerButton2.isHidden = false
         }
         if answers.count > 3 {
-            answerButton3.setTitle(answers[3], for: .normal)
+            answerButton3.setTitle(answers[3].decodeHTMLEntities(), for: .normal)
             answerButton3.isHidden = false
         }
     }
