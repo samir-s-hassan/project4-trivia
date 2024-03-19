@@ -2,7 +2,7 @@
 
 Submitted by: Samir Hassan
 
-Trivia is an app that allows users to answer questions retrieved from the Open Trivia Database API much like a Trivia game. These questions have multiple answers, range in difficulty, and are from different categories. The questions can either be multiple choice or True and False. Users have the option to reset the game and view their score after completing at least 5 questions.
+Trivia is an app that allows users to answer questions retrieved from the Open Trivia Database API much like a Trivia game. These questions have multiple answers, range in difficulty, and are from different categories. The questions can either be multiple choice or True and False. Users have the option to reset the game and view their score after completing at least 10 questions (this amount varies and can easily be changed in the code as the amount of questions is parametrized in the GET request.)
 
 Time spent: 4 hours spent in total
 
