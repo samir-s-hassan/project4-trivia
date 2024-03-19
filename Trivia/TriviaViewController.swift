@@ -95,18 +95,18 @@ class TriviaViewController: UIViewController {
         if isCorrectAnswer(answer) {
             numCorrectQuestions += 1
             // show alert for correct answer
-            let alert = UIAlertController(title: "Correct!", message: "You got the answer right!\nScore: \(numCorrectQuestions)/\(questions.count)", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default) { _ in }
-            alert.addAction(okAction)
-            present(alert, animated: true, completion: nil)
+//            let alert = UIAlertController(title: "Correct!", message: "You got the answer right!\nScore: \(numCorrectQuestions)/\(questions.count)", preferredStyle: .alert)
+//            let okAction = UIAlertAction(title: "OK", style: .default) { _ in }
+//            alert.addAction(okAction)
+//            present(alert, animated: true, completion: nil)
         }
-        else {
-            // show alert for incorrect answer
-            let wrongAlert = UIAlertController(title: "Incorrect!", message: "Sorry, that's not the correct answer.\nScore: \(numCorrectQuestions)/\(questions.count)", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default) { _ in }
-            wrongAlert.addAction(okAction)
-            present(wrongAlert, animated: true, completion: nil)
-        }
+//        else if currQuestionIndex != 10 {
+//            // show alert for incorrect answer
+//            let wrongAlert = UIAlertController(title: "Incorrect!", message: "Sorry, that's not the correct answer.\nScore: \(numCorrectQuestions)/\(questions.count)", preferredStyle: .alert)
+//            let okAction = UIAlertAction(title: "OK", style: .default) { _ in }
+//            wrongAlert.addAction(okAction)
+//            present(wrongAlert, animated: true, completion: nil)
+//        }
         //SAMIR - FOR FUTURE add something such that the user will only get the next question once he presses the OK button. Currently, they get to the next question then press OK on the popup
         currQuestionIndex += 1
         guard currQuestionIndex < questions.count else {
@@ -127,12 +127,14 @@ class TriviaViewController: UIViewController {
         let resetAction = UIAlertAction(title: "Restart", style: .default) { [unowned self] _ in
             currQuestionIndex = 0
             numCorrectQuestions = 0
-            //self.fetchNewTriviaQuestions()
             updateQuestion(withQuestionIndex: currQuestionIndex)
+            self.fetchNewTriviaQuestions()
         }
         alertController.addAction(resetAction)
         present(alertController, animated: true, completion: nil)
     }
+    
+    
     
     private func addGradient() {
         let gradientLayer = CAGradientLayer()
