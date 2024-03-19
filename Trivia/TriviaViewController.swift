@@ -53,7 +53,7 @@ class TriviaViewController: UIViewController {
     
     //Samir - this function is so we have a function to do the API call so we can later get fresh set of questions
     private func fetchNewTriviaQuestions() {
-        TriviaQuestionService.fetchTriviaQuestions(amount: 5) { [weak self] questions in
+        TriviaQuestionService.fetchTriviaQuestions(amount: 10) { [weak self] questions in
             self?.questions = questions
             DispatchQueue.main.async {
                 self?.currQuestionIndex = 0
@@ -94,7 +94,20 @@ class TriviaViewController: UIViewController {
     private func updateToNextQuestion(answer: String) {
         if isCorrectAnswer(answer) {
             numCorrectQuestions += 1
+            // show alert for correct answer
+            let alert = UIAlertController(title: "Correct!", message: "You got the answer right!\nScore: \(numCorrectQuestions)/\(questions.count)", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default) { _ in }
+            alert.addAction(okAction)
+            present(alert, animated: true, completion: nil)
         }
+        else {
+            // show alert for incorrect answer
+            let wrongAlert = UIAlertController(title: "Incorrect!", message: "Sorry, that's not the correct answer.\nScore: \(numCorrectQuestions)/\(questions.count)", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default) { _ in }
+            wrongAlert.addAction(okAction)
+            present(wrongAlert, animated: true, completion: nil)
+        }
+        //SAMIR - FOR FUTURE add something such that the user will only get the next question once he presses the OK button. Currently, they get to the next question then press OK on the popup
         currQuestionIndex += 1
         guard currQuestionIndex < questions.count else {
             showFinalScore()
