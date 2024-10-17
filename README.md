@@ -1,4 +1,4 @@
-# Project 4 - Trivia
+# Trivia
 
 Submitted by: Samir Hassan
 
