@@ -1,4 +1,4 @@
-# Trivia
+# Trivia v2.0
 
 Submitted by: Samir Hassan
 
